@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-
-import { getCabins } from "../services/apiCabins";
+import Button from "../ui/Button";
 
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
@@ -15,6 +13,7 @@ function Cabins() {
       </Row>
       <Row>
         <CabinTable />
+        <Button>Add new cabin</Button>
       </Row>
     </>
   );
