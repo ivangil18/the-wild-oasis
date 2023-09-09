@@ -20,22 +20,33 @@ export async function deleteCabin(id) {
   }
 }
 
-export async function createCabin(newCabin) {
+export async function createEditCabin(newCabin, id) {
+  // check if there is image received in the new cabin is recently uploaded or it is coming form the database
+  const hasImagePath = newCabin.image?.startsWith?.(supabaseUrl);
+
   //define image unique name
   const imageName = `${Math.random()}-${newCabin.image.name}`.replace("/", "");
 
   // define image path in storge bucket
-  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
-  // https://qjivsaxsizwgxzqzzgiq.supabase.co/storage/v1/object/public/cabin-images/cabin-001.jpg
+  const imagePath = hasImagePath
+    ? newCabin.image
+    : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
-  console.log({ ...newCabin, image: imagePath });
-  console.log(imagePath);
+  let query = supabase.from("cabins");
 
-  // 1. create cabin
-  const { data, error } = await supabase
-    .from("cabins")
-    .insert([{ ...newCabin, image: imagePath }])
-    .select();
+  // 1. create/edit cabin
+
+  // A) Create cabin
+  if (!id) query = query.insert([{ ...newCabin, image: imagePath }]);
+
+  // B) Edit cabin
+  if (id)
+    query = query
+      .update({ ...newCabin, image: imagePath })
+      .eq("id", id)
+      .select();
+
+  const { data, error } = await query.select();
 
   if (error) {
     console.log(error);
