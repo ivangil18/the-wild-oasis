@@ -7,6 +7,10 @@ import { useDeleteCabin } from "./useDeleteCabin";
 
 import CreateCabinForm from "./CreateCabinForm";
 
+import { HiDuplicate, HiPencil, HiTrash } from "react-icons/hi";
+
+import { useCreateCabin } from "./useCreateCabin";
+
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
@@ -47,11 +51,24 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const { id, image, maxCapacity, name, regularPrice, discount } = cabin;
+  const { id, image, maxCapacity, name, regularPrice, discount, description } =
+    cabin;
 
   const [showForm, setShowForm] = useState(false);
-
   const { isDeleting, deleteCabin } = useDeleteCabin();
+  const { isCreating, createCabin } = useCreateCabin();
+
+  //This will duplicate an existing cabin...
+  function handleDuplicate() {
+    createCabin({
+      name: `Copy of ${name}`,
+      image,
+      maxCapacity,
+      regularPrice,
+      discount,
+      description,
+    });
+  }
 
   return (
     <>
@@ -66,9 +83,14 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div>
-          <button onClick={() => setShowForm((show) => !show)}>Edit</button>
+          <button disabled={isCreating} onClick={handleDuplicate}>
+            <HiDuplicate />
+          </button>
+          <button onClick={() => setShowForm((show) => !show)}>
+            <HiPencil />
+          </button>
           <button disabled={isDeleting} onClick={() => deleteCabin(id)}>
-            Delete
+            <HiTrash />
           </button>
         </div>
       </TableRow>

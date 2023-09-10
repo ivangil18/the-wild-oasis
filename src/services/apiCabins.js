@@ -11,21 +11,15 @@ export async function getCabins() {
   return data;
 }
 
-export async function deleteCabin(id) {
-  const { error } = await supabase.from("cabins").delete().eq("id", id);
-
-  if (error) {
-    console.log(error);
-    throw new Error("Cabin could not be deleted");
-  }
-}
-
 export async function createEditCabin(newCabin, id) {
   // check if there is image received in the new cabin is recently uploaded or it is coming form the database
   const hasImagePath = newCabin.image?.startsWith?.(supabaseUrl);
 
   //define image unique name
-  const imageName = `${Math.random()}-${newCabin.image.name}`.replace("/", "");
+  const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll(
+    "/",
+    ""
+  );
 
   // define image path in storge bucket
   const imagePath = hasImagePath
@@ -54,6 +48,7 @@ export async function createEditCabin(newCabin, id) {
   }
 
   // 2. Upload image
+  if (hasImagePath) return;
   const { error: storageError } = await supabase.storage
     .from("cabin-images")
     .upload(imageName, newCabin.image);
@@ -69,4 +64,12 @@ export async function createEditCabin(newCabin, id) {
   }
 
   return data;
+}
+export async function deleteCabin(id) {
+  const { error } = await supabase.from("cabins").delete().eq("id", id);
+
+  if (error) {
+    console.log(error);
+    throw new Error("Cabin could not be deleted");
+  }
 }
