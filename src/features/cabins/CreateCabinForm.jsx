@@ -9,9 +9,13 @@ import { useForm } from "react-hook-form";
 
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
+import { useContext } from "react";
+import { CabinContext } from "./AddCabin";
 
 function CreateCabinForm({ cabinToEdit = {} }) {
   const { id: editId, ...editValues } = cabinToEdit;
+
+  const { closeModal } = useContext(CabinContext);
 
   // Using the Boolean constructor here will return true or false depending on if the var passed as argument has a value or not
   const isEditSession = Boolean(editId);
@@ -33,9 +37,23 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     if (isEditSession) {
       editCabin(
         { newCabinData: { ...data, image: image }, id: editId },
-        { onSuccess: () => reset() }
+        {
+          onSuccess: () => {
+            reset();
+            closeModal?.();
+          },
+        }
       );
-    } else createCabin({ ...data, image: image }, { onSuccess: () => reset() });
+    } else
+      createCabin(
+        { ...data, image: image },
+        {
+          onSuccess: () => {
+            reset();
+            closeModal?.();
+          },
+        }
+      );
   }
 
   function onError(errors) {
@@ -43,7 +61,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={closeModal ? "modal" : "regular"}
+    >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -124,7 +145,11 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button
+          variation="secondary"
+          type="reset"
+          onClick={() => closeModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>

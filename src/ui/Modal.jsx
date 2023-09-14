@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import { HiX } from "react-icons/hi";
 import styled from "styled-components";
+import { CabinContext } from "../features/cabins/AddCabin";
+import { createPortal } from "react-dom";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -48,3 +52,21 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+
+function Modal({ children }) {
+  const { closeModal } = useContext(CabinContext);
+  return createPortal(
+    <Overlay>
+      <StyledModal>
+        <Button onClick={closeModal}>
+          <HiX />
+        </Button>
+        {children}
+      </StyledModal>
+      ;
+    </Overlay>,
+    document.body
+  );
+}
+
+export default Modal;
