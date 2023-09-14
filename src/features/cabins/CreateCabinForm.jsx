@@ -9,13 +9,9 @@ import { useForm } from "react-hook-form";
 
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
-import { useContext } from "react";
-import { CabinContext } from "./AddCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, close: closeModal }) {
   const { id: editId, ...editValues } = cabinToEdit;
-
-  const { closeModal } = useContext(CabinContext);
 
   // Using the Boolean constructor here will return true or false depending on if the var passed as argument has a value or not
   const isEditSession = Boolean(editId);
