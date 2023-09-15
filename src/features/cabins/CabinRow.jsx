@@ -3,13 +3,14 @@ import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
 
 import { useDeleteCabin } from "./useDeleteCabin";
+import { useCreateCabin } from "./useCreateCabin";
 
 import CreateCabinForm from "./CreateCabinForm";
 
 import { HiDuplicate, HiPencil, HiTrash } from "react-icons/hi";
 
-import { useCreateCabin } from "./useCreateCabin";
 import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const TableRow = styled.div`
   display: grid;
@@ -93,10 +94,20 @@ function CabinRow({ cabin }) {
           <Modal.Window name="edit">
             <CreateCabinForm cabinToEdit={cabin} />
           </Modal.Window>
+
+          <Modal.Open opens="delete-confirmation">
+            <button>
+              <HiTrash />
+            </button>
+          </Modal.Open>
+          <Modal.Window name="delete-confirmation">
+            <ConfirmDelete
+              resourceName={`cabin ${name}`}
+              onConfirm={() => deleteCabin(id)}
+              disabled={isDeleting}
+            />
+          </Modal.Window>
         </Modal>
-        <button disabled={isDeleting} onClick={() => deleteCabin(id)}>
-          <HiTrash />
-        </button>
       </div>
     </TableRow>
   );

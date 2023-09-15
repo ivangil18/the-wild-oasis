@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {}, close: closeModal }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { id: editId, ...editValues } = cabinToEdit;
 
   // Using the Boolean constructor here will return true or false depending on if the var passed as argument has a value or not
@@ -36,7 +36,7 @@ function CreateCabinForm({ cabinToEdit = {}, close: closeModal }) {
         {
           onSuccess: () => {
             reset();
-            closeModal?.();
+            onCloseModal?.();
           },
         }
       );
@@ -46,7 +46,7 @@ function CreateCabinForm({ cabinToEdit = {}, close: closeModal }) {
         {
           onSuccess: () => {
             reset();
-            closeModal?.();
+            onCloseModal?.();
           },
         }
       );
@@ -59,7 +59,7 @@ function CreateCabinForm({ cabinToEdit = {}, close: closeModal }) {
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
-      $type={closeModal ? "modal" : "regular"}
+      $type={onCloseModal ? "modal" : "regular"}
     >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
@@ -144,7 +144,7 @@ function CreateCabinForm({ cabinToEdit = {}, close: closeModal }) {
         <Button
           $variation="secondary"
           $type="reset"
-          onClick={() => closeModal?.()}
+          onClick={() => onCloseModal?.()}
         >
           Cancel
         </Button>
