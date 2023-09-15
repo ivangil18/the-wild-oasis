@@ -59,7 +59,7 @@ function CreateCabinForm({ cabinToEdit = {}, close: closeModal }) {
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
-      type={closeModal ? "modal" : "regular"}
+      $type={closeModal ? "modal" : "regular"}
     >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
@@ -142,8 +142,8 @@ function CreateCabinForm({ cabinToEdit = {}, close: closeModal }) {
       <FormRow>
         {/* type is an HTML attribute! */}
         <Button
-          variation="secondary"
-          type="reset"
+          $variation="secondary"
+          $type="reset"
           onClick={() => closeModal?.()}
         >
           Cancel
