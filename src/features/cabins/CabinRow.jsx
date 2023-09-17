@@ -12,18 +12,19 @@ import { HiDuplicate, HiPencil, HiTrash } from "react-icons/hi";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-  column-gap: 2.4rem;
-  align-items: center;
-  padding: 1.4rem 2.4rem;
+// const TableRow = styled.div`
+//   display: grid;
+//   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
+//   column-gap: 2.4rem;
+//   align-items: center;
+//   padding: 1.4rem 2.4rem;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`;
+//   &:not(:last-child) {
+//     border-bottom: 1px solid var(--color-grey-100);
+//   }
+// `;
 
 const Img = styled.img`
   display: block;
@@ -53,8 +54,15 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const { id, image, maxCapacity, name, regularPrice, discount, description } =
-    cabin;
+  const {
+    id: cabinId,
+    image,
+    maxCapacity,
+    name,
+    regularPrice,
+    discount,
+    description,
+  } = cabin;
 
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
@@ -104,10 +112,18 @@ function CabinRow({ cabin }) {
           <Modal.Window name="delete-confirmation">
             <ConfirmDelete
               resourceName={`cabin ${name}`}
-              onConfirm={() => deleteCabin(id)}
+              onConfirm={() => deleteCabin(cabinId)}
               disabled={isDeleting}
             />
           </Modal.Window>
+          <Menus.Menu>
+            <Menus.Toggle id={cabinId} />
+            <Menus.List id={cabinId}>
+              <Menus.Button>Duplicate</Menus.Button>
+              <Menus.Button>Edit</Menus.Button>
+              <Menus.Button>Delete</Menus.Button>
+            </Menus.List>
+          </Menus.Menu>
         </Modal>
       </div>
     </Table.Row>
