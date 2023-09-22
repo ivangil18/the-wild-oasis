@@ -5,13 +5,31 @@ import Menus from "../../ui/Menus";
 import Spinner from "../../ui/Spinner";
 
 import { useReadBookings } from "./useReadBookings";
+import { useSearchParams } from "react-router-dom";
 
 function BookingTable() {
-  // const bookings = [];
+  const { bookings, isLoading } = useReadBookings();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { bookings, isLoading, error } = useReadBookings();
+  const filterOption = searchParams.get("status") || "all";
 
-  console.log(bookings);
+  // 1) Fillter
+  let filteredBookings = [];
+
+  if (filterOption === "all") filteredBookings = bookings;
+
+  if (filterOption === "unconfirmed")
+    filteredBookings = bookings.filter(
+      (booking) => booking.status === filterOption
+    );
+  if (filterOption === "checked-in")
+    filteredBookings = bookings.filter(
+      (booking) => booking.status === filterOption
+    );
+  if (filterOption === "checkd-out")
+    filteredBookings = bookings.filter(
+      (booking) => booking.status === filterOption
+    );
 
   if (isLoading) return <Spinner />;
 
@@ -28,7 +46,8 @@ function BookingTable() {
         </Table.Header>
 
         <Table.Body
-          data={bookings}
+          // data={bookings}
+          data={filteredBookings}
           render={(booking) => (
             <BookingRow key={booking.id} booking={booking} />
           )}
