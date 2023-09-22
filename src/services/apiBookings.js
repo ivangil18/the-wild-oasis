@@ -95,3 +95,17 @@ export async function deleteBooking(id) {
   }
   return data;
 }
+
+// returns all bookings
+export async function getBookings() {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*, cabins(*), guests(*)");
+
+  if (error) {
+    console.log(error);
+    throw new Error("Bookings could not be found");
+  }
+
+  return data;
+}
