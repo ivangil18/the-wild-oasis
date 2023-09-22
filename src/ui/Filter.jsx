@@ -35,11 +35,11 @@ const FilterButton = styled.button`
   }
 `;
 
-function Filter({ param, options }) {
+function Filter({ filterField, options }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   function handleClick(value) {
-    searchParams.set(param, value);
+    searchParams.set(filterField, value);
     setSearchParams(searchParams);
   }
 
@@ -49,7 +49,8 @@ function Filter({ param, options }) {
         <FilterButton
           onClick={() => handleClick(option.value)}
           key={option.value}
-          $active={searchParams.get(param) === option.value}
+          $active={searchParams.get(filterField) === option.value}
+          disabled={searchParams.get(filterField) === option.value}
         >
           {option.label}
         </FilterButton>
