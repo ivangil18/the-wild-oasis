@@ -1,10 +1,11 @@
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
+// returs a single Booking using the ID
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")
-    .select("*, cabins(*), guests(*)")
+    .select("*")
     .eq("id", id)
     .single();
 
@@ -100,7 +101,9 @@ export async function deleteBooking(id) {
 export async function getBookings() {
   const { data, error } = await supabase
     .from("bookings")
-    .select("*, cabins(*), guests(*)");
+    .select(
+      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, status, cabins(name), guests(fullName, email)"
+    );
 
   if (error) {
     console.log(error);

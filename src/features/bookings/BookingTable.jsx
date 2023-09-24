@@ -3,21 +3,27 @@ import BookingRow from "./BookingRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Spinner from "../../ui/Spinner";
+import Empty from "../../ui/Empty";
 
 import { useReadBookings } from "./useReadBookings";
 import { useSearchParams } from "react-router-dom";
 
 function BookingTable() {
   const { bookings, isLoading } = useReadBookings();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  const filterOption = searchParams.get("status") || "all";
+  if (isLoading) return <Spinner />;
+
+  if (!bookings) return <Empty resourceName="bookings" />;
 
   // 1) Fillter
+  const filterOption = searchParams.get("status") || "all";
+
+  console.log(filterOption);
   let filteredBookings = [];
 
   if (filterOption === "all") filteredBookings = bookings;
-
+  console.log(filteredBookings);
   if (filterOption === "unconfirmed")
     filteredBookings = bookings.filter(
       (booking) => booking.status === filterOption
@@ -31,7 +37,16 @@ function BookingTable() {
       (booking) => booking.status === filterOption
     );
 
-  if (isLoading) return <Spinner />;
+  // 2) SORT
+
+  const sortBy = searchParams.get("sortBy") || "startDate-asc";
+  console.log(sortBy);
+  const [field, direction] = sortBy.split("-");
+  const modifier = direction === "asc" ? 1 : -1;
+
+  const sortedBookings = filteredBookings.sort(
+    (a, b) => (a[field] - b[field]) * modifier
+  );
 
   return (
     <Menus>
@@ -47,7 +62,8 @@ function BookingTable() {
 
         <Table.Body
           // data={bookings}
-          data={filteredBookings}
+          // data={filteredBookings}
+          data={sortedBookings}
           render={(booking) => (
             <BookingRow key={booking.id} booking={booking} />
           )}
