@@ -1,10 +1,11 @@
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
+// returs a single Booking using the ID
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")
-    .select("*, cabins(*), guests(*)")
+    .select("*")
     .eq("id", id)
     .single();
 
@@ -93,5 +94,37 @@ export async function deleteBooking(id) {
     console.error(error);
     throw new Error("Booking could not be deleted");
   }
+  return data;
+}
+
+// returns all bookings
+export async function getBookings({ filter, sortBy }) {
+  let query = supabase
+    .from("bookings")
+    .select(
+      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, status, cabins(name), guests(fullName, email)"
+    );
+
+  // FILTER
+  if (filter) query = query.eq(filter.field, filter.value);
+
+  // THIS CODE ALLOWS TO PASS THE THE FILTERING METHOD - METHOD MUST BE INCLUDED IN THE FILTER OBJECT
+  // if (filter !== null) query = query[filter.method || "eq"](filter.field, filter.value);
+
+  console.log(sortBy);
+
+  // SORT
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.log(error);
+    throw new Error("Bookings could not be found");
+  }
+
   return data;
 }
