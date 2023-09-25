@@ -16,6 +16,8 @@ function BookingTable() {
 
   if (!bookings) return <Empty resourceName="bookings" />;
 
+  /*
+  //THIS BLOCK OF CODE IS FOR CLIENT SIDE FILTERING AND SORTING
   // 1) Fillter
   const filterOption = searchParams.get("status") || "all";
 
@@ -32,13 +34,12 @@ function BookingTable() {
     filteredBookings = bookings.filter(
       (booking) => booking.status === filterOption
     );
-  if (filterOption === "checkd-out")
+  if (filterOption === "checked-out")
     filteredBookings = bookings.filter(
       (booking) => booking.status === filterOption
     );
 
   // 2) SORT
-
   const sortBy = searchParams.get("sortBy") || "startDate-asc";
   console.log(sortBy);
   const [field, direction] = sortBy.split("-");
@@ -47,7 +48,7 @@ function BookingTable() {
   const sortedBookings = filteredBookings.sort(
     (a, b) => (a[field] - b[field]) * modifier
   );
-
+*/
   return (
     <Menus>
       <Table $columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">
@@ -61,9 +62,9 @@ function BookingTable() {
         </Table.Header>
 
         <Table.Body
-          // data={bookings}
+          data={bookings}
           // data={filteredBookings}
-          data={sortedBookings}
+          // data={sortedBookings}
           render={(booking) => (
             <BookingRow key={booking.id} booking={booking} />
           )}

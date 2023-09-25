@@ -98,12 +98,22 @@ export async function deleteBooking(id) {
 }
 
 // returns all bookings
-export async function getBookings() {
-  const { data, error } = await supabase
+export async function getBookings({ filter, sorby }) {
+  console.log(filter);
+
+  let query = supabase
     .from("bookings")
     .select(
       "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, status, cabins(name), guests(fullName, email)"
     );
+
+  // FILTER
+  if (filter !== null) query = query.eq(filter.field, filter.value);
+
+  // THIS CODE ALLOWS TO PASS THE THE FILTERING METHOD - METHOD MUST BE INCLUDED IN THE FILTER OBJECT
+  // if (filter !== null) query = query[filter.method || "eq"](filter.field, filter.value);
+
+  const { data, error } = await query;
 
   if (error) {
     console.log(error);
