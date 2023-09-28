@@ -1,4 +1,6 @@
 import { getToday } from "../utils/helpers";
+import { PAGE_SIZE } from "../utils/constant";
+
 import supabase from "./supabase";
 
 // returs a single Booking using the ID
@@ -98,20 +100,18 @@ export async function deleteBooking(id) {
 }
 
 // returns all bookings
-export async function getBookings({ filter, sortBy }) {
+export async function getBookings({ filter, sortBy, page }) {
   let query = supabase
     .from("bookings")
     .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, status, cabins(name), guests(fullName, email)"
+      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, status, cabins(name), guests(fullName, email)",
+      { count: "exact" }
     );
-
   // FILTER
   if (filter) query = query.eq(filter.field, filter.value);
 
   // THIS CODE ALLOWS TO PASS THE THE FILTERING METHOD - METHOD MUST BE INCLUDED IN THE FILTER OBJECT
   // if (filter !== null) query = query[filter.method || "eq"](filter.field, filter.value);
-
-  console.log(sortBy);
 
   // SORT
   if (sortBy)
@@ -119,12 +119,21 @@ export async function getBookings({ filter, sortBy }) {
       ascending: sortBy.direction === "asc",
     });
 
-  const { data, error } = await query;
+  // PAGINATION
+  console.log(page);
+  if (!page) page = 1;
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = page * PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     console.log(error);
     throw new Error("Bookings could not be found");
   }
 
-  return data;
+  return { data, count };
 }
