@@ -13,6 +13,7 @@ import BookingDataBox from "./BookingDataBox";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBooking } from "./useDeleteBooking";
 import { HiEye } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -62,6 +63,7 @@ function BookingRow({
   };
 
   const { isDeleting, deleteBooking } = useDeleteBooking();
+  const navigate = useNavigate();
 
   return (
     <Table.Row>
@@ -92,9 +94,13 @@ function BookingRow({
         <Menus.Menu>
           <Menus.Toggle id={bookingId} />
           <Menus.List id={bookingId}>
-            <Modal.Open opens="details">
-              <Menus.Button icon={<HiEye />}>See Details</Menus.Button>
-            </Modal.Open>
+            <Menus.Button
+              icon={<HiEye />}
+              onClick={() => navigate(`/bookings/${bookingId}`)}
+            >
+              See Details
+            </Menus.Button>
+
             <Modal.Open opens="delete">
               <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
             </Modal.Open>
