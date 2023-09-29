@@ -120,8 +120,6 @@ export async function getBookings({ filter, sortBy, page }) {
     });
 
   // PAGINATION
-  console.log(page);
-  if (!page) page = 1;
   if (page) {
     const from = (page - 1) * PAGE_SIZE;
     const to = page * PAGE_SIZE - 1;

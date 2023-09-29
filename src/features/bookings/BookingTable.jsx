@@ -9,7 +9,7 @@ import { useReadBookings } from "./useBookings";
 import Pagination from "../../ui/Pagination";
 
 function BookingTable() {
-  const { bookings, isLoading } = useReadBookings();
+  const { bookings, isLoading, count } = useReadBookings();
 
   if (isLoading) return <Spinner />;
 
@@ -61,7 +61,7 @@ function BookingTable() {
         </Table.Header>
 
         <Table.Body
-          data={bookings.data}
+          data={bookings}
           // data={filteredBookings}
           // data={sortedBookings}
           render={(booking) => (
@@ -69,7 +69,7 @@ function BookingTable() {
           )}
         />
         <Table.Footer>
-          <Pagination count={bookings.count} />
+          <Pagination count={count} />
         </Table.Footer>
       </Table>
     </Menus>

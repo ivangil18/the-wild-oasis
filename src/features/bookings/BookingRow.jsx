@@ -12,6 +12,7 @@ import Modal from "../../ui/Modal";
 import BookingDataBox from "./BookingDataBox";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBooking } from "./useDeleteBooking";
+import { HiEye } from "react-icons/hi2";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -40,8 +41,8 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
-function BookingRow({ booking }) {
-  const {
+function BookingRow({
+  booking: {
     id: bookingId,
     created_at,
     startDate,
@@ -52,8 +53,8 @@ function BookingRow({ booking }) {
     status,
     guests: { fullName: guestName, email },
     cabins: { name: cabinName },
-  } = booking;
-
+  },
+}) {
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
@@ -92,17 +93,13 @@ function BookingRow({ booking }) {
           <Menus.Toggle id={bookingId} />
           <Menus.List id={bookingId}>
             <Modal.Open opens="details">
-              <Menus.Button icon={<HiDocumentText />}>Details</Menus.Button>
+              <Menus.Button icon={<HiEye />}>See Details</Menus.Button>
             </Modal.Open>
-            <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
             <Modal.Open opens="delete">
               <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
             </Modal.Open>
           </Menus.List>
         </Menus.Menu>
-        <Modal.Window name="details">
-          <BookingDataBox booking={booking} />
-        </Modal.Window>
         <Modal.Window name="delete">
           <ConfirmDelete
             resourceName="bookings"
