@@ -9,9 +9,11 @@ import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useBooking } from "./useBooking";
 import Spinner from "../../ui/Spinner";
+import { HiArrowDownOnSquare } from "react-icons/hi2";
+import Checkbox from "../../ui/Checkbox";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -23,6 +25,8 @@ function BookingDetail() {
   const { bookingId } = useParams();
 
   const { booking, isLoading } = useBooking();
+
+  const navigate = useNavigate();
 
   const moveBack = useMoveBack();
 
@@ -51,6 +55,9 @@ function BookingDetail() {
       <BookingDataBox booking={booking} />
 
       <ButtonGroup>
+        <Button onClick={() => navigate(`/checkin/${bookingId}`)}>
+          <HiArrowDownOnSquare /> Check in
+        </Button>
         <Button $variation="secondary" onClick={moveBack}>
           Back
         </Button>
