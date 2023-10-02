@@ -3,17 +3,19 @@ import { format, isToday } from "date-fns";
 
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Menus from "../../ui/Menus";
+import Modal from "../../ui/Modal";
 
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
-import Menus from "../../ui/Menus";
-import { HiTrash } from "react-icons/hi";
-import Modal from "../../ui/Modal";
 
-import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBooking } from "./useDeleteBooking";
-import { HiArrowDownOnSquare, HiEye } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
+import { useCheckout } from "../check-in-out/useCheckout";
+
+import { HiTrash } from "react-icons/hi";
+import { HiArrowDownOnSquare, HiArrowUpOnSquare, HiEye } from "react-icons/hi2";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -64,6 +66,7 @@ function BookingRow({
 
   const { isDeleting, deleteBooking } = useDeleteBooking();
   const navigate = useNavigate();
+  const { checkout, isCheckingOut } = useCheckout();
 
   return (
     <Table.Row>
@@ -106,6 +109,15 @@ function BookingRow({
                 onClick={() => navigate(`/checkin/${bookingId}`)}
               >
                 Check in
+              </Menus.Button>
+            )}
+            {status === "checked-in" && (
+              <Menus.Button
+                icon={<HiArrowUpOnSquare />}
+                onClick={() => checkout(bookingId)}
+                disable={isCheckingOut}
+              >
+                Check out
               </Menus.Button>
             )}
             <Modal.Open opens="delete">

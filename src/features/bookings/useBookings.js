@@ -23,7 +23,7 @@ export function useReadBookings() {
   const sortBy = { field, direction };
 
   // PAGINATION
-  const page = searchParams.get("page") || 1;
+  const page = Number(searchParams.get("page")) || 1;
 
   // QUERY
   const {

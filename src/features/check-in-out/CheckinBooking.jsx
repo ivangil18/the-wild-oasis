@@ -47,7 +47,6 @@ function CheckinBooking() {
     numGuests,
     hasBreakfast,
     numNights,
-    isPaid,
   } = booking;
 
   // ME QUEDE POR AQUI, FIGURING OUT WHEN TO INCLUDE BREAKFAST AND HOW TO CALCULATE IT!!!
