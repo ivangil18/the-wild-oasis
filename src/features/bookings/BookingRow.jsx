@@ -127,7 +127,7 @@ function BookingRow({
         </Menus.Menu>
         <Modal.Window name="delete">
           <ConfirmDelete
-            resourceName="bookings"
+            resourceName={`booking #${bookingId}`}
             onConfirm={() => deleteBooking(bookingId)}
             disabled={isDeleting}
           />
