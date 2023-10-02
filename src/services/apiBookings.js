@@ -7,7 +7,7 @@ import supabase from "./supabase";
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")
-    .select("*")
+    .select("*, guests(*), cabins(name)")
     .eq("id", id)
     .single();
 
@@ -74,6 +74,8 @@ export async function getStaysTodayActivity() {
 }
 
 export async function updateBooking(id, obj) {
+  console.log(id);
+  console.log(obj);
   const { data, error } = await supabase
     .from("bookings")
     .update(obj)
@@ -120,8 +122,6 @@ export async function getBookings({ filter, sortBy, page }) {
     });
 
   // PAGINATION
-  console.log(page);
-  if (!page) page = 1;
   if (page) {
     const from = (page - 1) * PAGE_SIZE;
     const to = page * PAGE_SIZE - 1;
