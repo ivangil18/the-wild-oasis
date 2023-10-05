@@ -53,7 +53,7 @@ function LoginForm() {
         />
       </FormRowVertical>
       <FormRowVertical>
-        <Button size="large">{isLoading ? <SpinnerMini /> : "Log in"}</Button>
+        <Button $size="large">{isLoading ? <SpinnerMini /> : "Log in"}</Button>
       </FormRowVertical>
     </Form>
   );
