@@ -16,10 +16,9 @@ function SignupForm() {
   const { isLoading, signup } = useSignup();
 
   function onSubmit(data) {
-    console.log(data);
-    const { email, password } = data;
+    const { fullName, email, password } = data;
 
-    signup({ email, password }, { onSettled: reset() });
+    signup({ fullName, email, password }, { onSettled: reset() });
   }
 
   function onError(errors) {
