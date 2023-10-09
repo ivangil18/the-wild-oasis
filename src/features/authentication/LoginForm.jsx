@@ -14,7 +14,6 @@ function LoginForm() {
   const { isLoading, login } = useLogin();
 
   function handleSubmit(e) {
-    console.log({ email, password });
     e.preventDefault();
 
     if (!email || !password) return;

@@ -1,4 +1,3 @@
-import { HiUserCircle } from "react-icons/hi2";
 import styled from "styled-components";
 import { useUser } from "./useUser";
 
@@ -26,8 +25,6 @@ function UserAvatar() {
   const { user } = useUser();
 
   const { avatar, fullName } = user.user_metadata;
-
-  console.log(avatar);
 
   return (
     <StyledUserAvatar>
