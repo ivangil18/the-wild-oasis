@@ -20,7 +20,6 @@ function Sidebar() {
     <StyledAside>
       <Logo />
       <MainNav />
-      <Uploader />
     </StyledAside>
   );
 }
