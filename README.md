@@ -1,8 +1,6 @@
-# React + Vite
+# The wild oasis
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A React Single Page Application that allows to manage a hotel/motel type of accommodation. Tracking and management
+of cabins, bookings, guests, and employees, records are the goals of this application. React Router is utilized for navigation
+between all views; styling is applied with styled-components library; remote state management is handled with React
+Query and the UI with Context API. All the data management and authentication are handled with Supabase as backend.
