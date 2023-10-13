@@ -30,12 +30,10 @@ const Guest = styled.div`
 function TodayItem({ activity }) {
   const { id, numNights, guests, status } = activity;
 
-  const { checkout } = useCheckout();
-
   return (
     <StyledTodayItem>
-      {status === "unconfirmed" && <Tag type="blue">Arriving</Tag>}
-      {status === "checked-in" && <Tag type="silver">Departing</Tag>}
+      {status === "unconfirmed" && <Tag type="green">Arriving</Tag>}
+      {status === "checked-in" && <Tag type="blue">Departing</Tag>}
       <Flag src={guests.countryFlag} alt={guests.nationality} />
       <Guest>{guests.fullName}</Guest>
       <div>{numNights} nights</div>
