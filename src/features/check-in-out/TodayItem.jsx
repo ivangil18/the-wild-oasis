@@ -5,7 +5,7 @@ import Button from "../../ui/Button";
 import { Flag } from "../../ui/Flag";
 
 import { Link } from "react-router-dom";
-import { useCheckout } from "./useCheckout";
+
 import CheckoutButton from "./CheckoutButton";
 
 const StyledTodayItem = styled.li`

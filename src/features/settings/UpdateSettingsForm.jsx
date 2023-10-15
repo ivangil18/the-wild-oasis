@@ -1,8 +1,7 @@
-import { useForm } from "react-hook-form";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
-import Button from "../../ui/Button";
+
 import Spinner from "../../ui/Spinner";
 import { useSettings } from "./useSettings";
 import { useUpdateSetting } from "./useUpdateSetting";
@@ -16,7 +15,6 @@ function UpdateSettingsForm() {
       maxGuestsPerBooking,
       breakfastPrice,
     } = {},
-    error,
   } = useSettings();
 
   const { isUpdating, updateSetting } = useUpdateSetting();
